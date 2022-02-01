@@ -14,6 +14,13 @@ public interface CasCovidRepository extends JpaRepository<CasCovid,Integer>{
 	
 	@Query("select c from CasCovid c where c.pays = :country and c.date = :date")
 	List<CasCovid> findByCountryDate(String country, String date);
-
+	
+	//population_needing_house,
+	  //LAG(population_needing_house) AS previous_year,
+	  
+	  @Query("select c from CasCovid c where c.pays = :country and c.date = :date")
+	  Double findByCountryDateI(String country, String date);
+	  
+	  
 }
 

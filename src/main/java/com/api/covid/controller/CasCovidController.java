@@ -31,9 +31,18 @@ public class CasCovidController {
 	    return casCovidService.getByCountry(country);
 	  }
 	
+	@GetMapping("/cas/now/{country}")
+	  public CasCovid findCasByCountryNow(@PathVariable String country) {
+		return casCovidService.getByCountryNow(country);
+	  }
+	
 	@GetMapping("/cas/{country}/{date}")
-	  public List<CasCovid> findCasByCountryDate(@PathVariable String country, @PathVariable String date) {
+	  public CasCovid findCasByCountryDate(@PathVariable String country, @PathVariable String date) {
 		return casCovidService.getByCountryDate(country, date);
+	  }
+	@GetMapping("/casI/{country}/{date}")
+	  public Double findCasByCountryDateI(@PathVariable String country, @PathVariable String date) {
+		return casCovidService.getByCountryDateI(country, date);
 	  }
 	/*
 	@GetMapping("/cas/{country}")

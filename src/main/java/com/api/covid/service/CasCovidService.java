@@ -6,6 +6,8 @@ import java.io.IOException;
 import java.sql.Date;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +27,7 @@ public class CasCovidService {
 		String line="";
 		String[] data = null;
 		try {
-			BufferedReader bf=new BufferedReader(new FileReader("src/main/resources/covidDataFile.csv"));
+			BufferedReader bf=new BufferedReader(new FileReader("src/main/resources/file.csv"));
 			for(int i=0; i<8; i++)
 				bf.readLine();
 			
@@ -60,10 +62,71 @@ public class CasCovidService {
 		return casCovidRepository.findByPays(country);
 	}
 	
-	public List<CasCovid> getByCountryDate(String country, String date)
+	public CasCovid getByCountryDate(String country, String date)
 	{
 		//
-		return casCovidRepository.findByCountryDate(country, date);
+		List<CasCovid> res = new ArrayList<>();
+		CasCovid c = new CasCovid();
+		List<CasCovid> casCovid = casCovidRepository.findByPays(country);
+		for(int i=0; i<casCovid.size(); i++) {
+			if(casCovid.get(i).getDate().equals(date))
+			{
+				res.add(casCovid.get(i));
+				res.add(casCovid.get(i+1));
+				
+				c.setDate(date);
+				c.setDeces(res.get(0).getDeces()-res.get(1).getDeces());
+				c.setInfections(res.get(0).getInfections()-res.get(1).getInfections());
+				c.setPays(country);
+				c.setGuerisons(res.get(0).getGuerisons()-res.get(1).getGuerisons());
+				
+				
+			}
+		}
+		
+		return c;
+		
+		
+			
+				
+	}
+	
+	public CasCovid getByCountryNow(String country)
+	{
+		//
+		List<CasCovid> res = new ArrayList<>();
+		CasCovid c = new CasCovid();
+		List<CasCovid> casCovid = casCovidRepository.findByPays(country);
+		java.util.Date date =  Calendar.getInstance().getTime();  
+		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");  
+		String strDate = dateFormat.format(date);  
+		for(int i=0; i<casCovid.size(); i++) {
+			if(casCovid.get(i).getDate().equals(strDate))
+			{
+				res.add(casCovid.get(i));
+				res.add(casCovid.get(i+1));
+				
+				c.setDate(strDate);
+				c.setDeces(res.get(0).getDeces()-res.get(1).getDeces());
+				c.setInfections(res.get(0).getInfections()-res.get(1).getInfections());
+				c.setPays(country);
+				c.setGuerisons(res.get(0).getGuerisons()-res.get(1).getGuerisons());
+				
+				
+			}
+		}
+		
+		return c;
+		
+		
+			
+				
+	}
+	
+	public Double getByCountryDateI(String country, String date)
+	{
+		//
+		return casCovidRepository.findByCountryDateI(country, date);
 	}
 	
 	public List<CasCovid> getCasCovid() {
