@@ -97,9 +97,9 @@ public class CasCovid {
 	}
 	@Override
 	public String toString() {
-		return "Cas_Covid [date=" + date + ", pays=" + pays + ", infections=" + infections + ", deces=" + deces
-				+ ", guerisons=" + guerisons + ", tauxDeces=" + tauxDeces + ", tauxguerisons=" + tauxGuerisons
-				+ ", tauxinfections=" + tauxInfections + "]";
+		return "Cas_Covid [date=" + date + ", pays=" + pays + ", infections=" + infections + " cas d'infections, deces=" + deces
+				+ " cas de décès, guerisons=" + guerisons + " cas guéris, tauxDeces=" + tauxDeces + "%, tauxguerisons=" + tauxGuerisons
+				+ "%, tauxinfections=" + tauxInfections + "%]";
 	}
 	
 	

@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.sql.Date;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,9 +26,9 @@ public class CasCovidService {
 		String[] data = null;
 		try {
 			BufferedReader bf=new BufferedReader(new FileReader("src/main/resources/covidDataFile.csv"));
-			bf.readLine();
-			bf.readLine();
-			bf.readLine();bf.readLine();bf.readLine();bf.readLine();bf.readLine();bf.readLine();
+			for(int i=0; i<8; i++)
+				bf.readLine();
+			
 			while((line=bf.readLine())!=null)
 			{
 				data = line.split(";");
@@ -52,5 +53,22 @@ public class CasCovidService {
 			e.printStackTrace();
 		}
 	}
+	
+	public List<CasCovid> getByCountry(String country)
+	{
+		//
+		return casCovidRepository.findByPays(country);
+	}
+	
+	public List<CasCovid> getByCountryDate(String country, String date)
+	{
+		//
+		return casCovidRepository.findByCountryDate(country, date);
+	}
+	
+	public List<CasCovid> getCasCovid() {
+		return casCovidRepository.findAll();
+	}
+	
 
 }
