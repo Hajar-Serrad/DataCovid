@@ -27,7 +27,7 @@ public class CasCovidController {
 	
 	@Scheduled(fixedDelayString = "PT30M")
 	@EventListener(ApplicationReadyEvent.class)
-	@RequestMapping(path="/cas")
+	@RequestMapping(path="/covid")
 	  public void findAllCas() {
 		casCovidService.deleteAll();
 	    casCovidService.saveData();

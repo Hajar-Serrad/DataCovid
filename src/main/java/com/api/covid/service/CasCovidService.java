@@ -37,6 +37,12 @@ public class CasCovidService {
 		String[] data = null;
 		try {
 			
+			try {
+	            Files.delete(Paths.get("src/main/resources/file2.csv"));
+	        } catch (IOException e) {
+	            e.printStackTrace();
+	        }
+			
 			URL fetchWebsite = new URL("https://coronavirus.politologue.com/data/coronavirus/coronacsv.aspx?format=csv&t=pays");
 
 	        Path path = Paths.get("src/main/resources/file2.csv");
