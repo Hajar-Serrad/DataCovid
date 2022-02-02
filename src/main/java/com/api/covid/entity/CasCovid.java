@@ -7,18 +7,21 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name="CasCovid")
 public class CasCovid {
 	
 	@GeneratedValue
 	@Id
+	@JsonIgnore
 	private int id;
 	private String date;
 	private String pays;
-	private double  infections;
-	private double  deces;
-	private double  guerisons;
+	private int  infections;
+	private int  deces;
+	private int  guerisons;
 	private double  tauxDeces;
 	private double  tauxGuerisons;
 	private double  tauxInfections;
@@ -29,7 +32,7 @@ public class CasCovid {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public CasCovid(String date, String pays, double infections, double deces, double guerisons,
+	public CasCovid(String date, String pays, int infections, int deces, int guerisons,
 			double tauxDeces, double tauxguerisons, double tauxinfections) {
 		super();
 		this.date = date;
@@ -59,22 +62,22 @@ public class CasCovid {
 	public void setPays(String pays) {
 		this.pays = pays;
 	}
-	public double getInfections() {
+	public int getInfections() {
 		return infections;
 	}
-	public void setInfections(double infections) {
+	public void setInfections(int infections) {
 		this.infections = infections;
 	}
-	public double getDeces() {
+	public int getDeces() {
 		return deces;
 	}
-	public void setDeces(double deces) {
+	public void setDeces(int deces) {
 		this.deces = deces;
 	}
-	public double getGuerisons() {
+	public int getGuerisons() {
 		return guerisons;
 	}
-	public void setGuerisons(double guerisons) {
+	public void setGuerisons(int guerisons) {
 		this.guerisons = guerisons;
 	}
 	public double getTauxDeces() {
@@ -97,10 +100,12 @@ public class CasCovid {
 	}
 	@Override
 	public String toString() {
-		return "Cas_Covid [date=" + date + ", pays=" + pays + ", infections=" + infections + " cas d'infections, deces=" + deces
-				+ " cas de décès, guerisons=" + guerisons + " cas guéris, tauxDeces=" + tauxDeces + "%, tauxguerisons=" + tauxGuerisons
-				+ "%, tauxinfections=" + tauxInfections + "%]";
+		String nL = System.getProperty("line.separator");
+		return "Evolution du Coronavirus (Covid19) - " + pays + " - "+ date +": "+ nL +"\t\t" + infections + " cas d'infections "+ nL +"\t\t" + deces
+				+ " cas de décès "+ nL +"\t" + guerisons + " cas guéris";
 	}
+	
+	
 	
 	
 	

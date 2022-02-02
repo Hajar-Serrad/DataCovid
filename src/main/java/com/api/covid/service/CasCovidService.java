@@ -1,8 +1,15 @@
 package com.api.covid.service;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.sql.Date;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -10,6 +17,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import org.apache.tomcat.util.http.fileupload.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,10 +32,19 @@ public class CasCovidService {
 	
 	public void saveData() {
 		
+		casCovidRepository.deleteAll();
 		String line="";
 		String[] data = null;
 		try {
-			BufferedReader bf=new BufferedReader(new FileReader("src/main/resources/file.csv"));
+			
+			URL fetchWebsite = new URL("https://coronavirus.politologue.com/data/coronavirus/coronacsv.aspx?format=csv&t=pays");
+
+	        Path path = Paths.get("src/main/resources/file2.csv");
+	        try (InputStream inputStream = fetchWebsite.openStream()) {
+	            Files.copy(inputStream, path, StandardCopyOption.REPLACE_EXISTING);
+	        }
+	        
+			BufferedReader bf=new BufferedReader(new FileReader("src/main/resources/file2.csv"));
 			for(int i=0; i<8; i++)
 				bf.readLine();
 			
@@ -36,15 +53,11 @@ public class CasCovidService {
 				data = line.split(";");
 				CasCovid casCovid = new CasCovid();
 				
-				//String pattern = "yyyy-MM-dd";
-				//SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
-
-				//String datex = simpleDateFormat.format(data[0]);
 				casCovid.setDate(data[0]);
 				casCovid.setPays(data[1]);
-				casCovid.setInfections(Double.parseDouble(data[2]));
-				casCovid.setDeces(Double.parseDouble(data[3]));
-				casCovid.setGuerisons(Double.parseDouble(data[4]));
+				casCovid.setInfections(Integer.parseInt(data[2]));
+				casCovid.setDeces(Integer.parseInt(data[3]));
+				casCovid.setGuerisons(Integer.parseInt(data[4]));
 				casCovid.setTauxDeces(Double.parseDouble(data[5]));
 				casCovid.setTauxGuerisons(Double.parseDouble(data[6]));
 				casCovid.setTauxInfections(Double.parseDouble(data[7]));
@@ -131,6 +144,10 @@ public class CasCovidService {
 	
 	public List<CasCovid> getCasCovid() {
 		return casCovidRepository.findAll();
+	}
+	
+	public void deleteAll() {
+		casCovidRepository.deleteAll();
 	}
 	
 

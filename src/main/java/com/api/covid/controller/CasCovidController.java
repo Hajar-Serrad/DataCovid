@@ -3,11 +3,15 @@ package com.api.covid.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.event.ApplicationReadyEvent;
+import org.springframework.context.event.EventListener;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.api.covid.entity.CasCovid;
@@ -21,33 +25,27 @@ public class CasCovidController {
 	@Autowired
 	private CasCovidService casCovidService;
 	
+	@Scheduled(fixedDelayString = "PT30M")
+	@EventListener(ApplicationReadyEvent.class)
 	@RequestMapping(path="/cas")
 	  public void findAllCas() {
+		casCovidService.deleteAll();
 	    casCovidService.saveData();
 	  }
 	
-	@GetMapping("/cas/{country}")
-	  public List<CasCovid> findCasByCountry(@PathVariable String country) {
+	@GetMapping("/covid/dataByCountry")
+	  public List<CasCovid> findCasByCountry(@RequestParam String country) {
 	    return casCovidService.getByCountry(country);
 	  }
 	
-	@GetMapping("/cas/now/{country}")
-	  public CasCovid findCasByCountryNow(@PathVariable String country) {
-		return casCovidService.getByCountryNow(country);
+	@GetMapping("/covid/todayDataByCountry")
+	  public String findCasByCountryNow(@RequestParam String country) {
+		return casCovidService.getByCountryNow(country).toString();
 	  }
 	
-	@GetMapping("/cas/{country}/{date}")
-	  public CasCovid findCasByCountryDate(@PathVariable String country, @PathVariable String date) {
-		return casCovidService.getByCountryDate(country, date);
+	@GetMapping("/covid/dataByCountryByDate")
+	  public String findCasByCountryDate(@RequestParam String country, @RequestParam String date) {
+		return casCovidService.getByCountryDate(country, date).toString();
 	  }
-	@GetMapping("/casI/{country}/{date}")
-	  public Double findCasByCountryDateI(@PathVariable String country, @PathVariable String date) {
-		return casCovidService.getByCountryDateI(country, date);
-	  }
-	/*
-	@GetMapping("/cas/{country}")
-	  public List<CasCovid> findCasByCountry(@PathVariable String country) {
-	    return casCovidService.getByCountry(country);
-	  }
-*/
+	
 }
