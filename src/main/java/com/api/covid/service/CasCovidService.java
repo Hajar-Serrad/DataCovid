@@ -1,23 +1,20 @@
 package com.api.covid.service;
 
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
+
 import java.io.IOException;
-import java.io.InputStream;
+
+import java.io.InputStreamReader;
 import java.net.URL;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
-import java.sql.Date;
+import java.net.URLConnection;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import org.apache.tomcat.util.http.fileupload.FileUtils;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -30,27 +27,42 @@ public class CasCovidService {
 	@Autowired
 	private CasCovidRepository casCovidRepository;
 	
-	public void saveData() {
+	public void saveData() throws IOException {
 		
+		//Files.deleteIfExists(Paths.get("src/main/resources/file.csv"));
+		
+		/*
+		 URL covid1 = new URL("https://coronavirus.politologue.com/data/coronavirus/coronacsv.aspx?format=csv&t=pays");
+   URLConnection covid2 = covid.openConnection();
+   BufferedReader bf = new BufferedReader(new InputStreamReader(
+                               covid2.getInputStream()));
+  
+   while ((inputLine = in.readLine()) != null) 
+       System.out.println(inputLine);
+   in.close();
+		 */
+
 		casCovidRepository.deleteAll();
 		String line="";
 		String[] data = null;
-		try {
-			
-			try {
-	            Files.delete(Paths.get("src/main/resources/file2.csv"));
-	        } catch (IOException e) {
-	            e.printStackTrace();
-	        }
+/*		try {
 			
 			URL fetchWebsite = new URL("https://coronavirus.politologue.com/data/coronavirus/coronacsv.aspx?format=csv&t=pays");
 
-	        Path path = Paths.get("src/main/resources/file2.csv");
-	        try (InputStream inputStream = fetchWebsite.openStream()) {
-	            Files.copy(inputStream, path, StandardCopyOption.REPLACE_EXISTING);
-	        }
+	     
 	        
-			BufferedReader bf=new BufferedReader(new FileReader("src/main/resources/file2.csv"));
+	        	Path path = Paths.get("src/main/resources/file.csv"); 
+	        	 try (InputStream inputStream = fetchWebsite.openStream()) {
+	 	            Files.copy(inputStream, path, StandardCopyOption.REPLACE_EXISTING);
+	 	        }
+	 	        
+			BufferedReader bf=new BufferedReader(new FileReader("src/main/resources/file.csv"));
+		*/
+		try {
+		
+		URL covid1 = new URL("https://coronavirus.politologue.com/data/coronavirus/coronacsv.aspx?format=csv&t=pays");
+		   URLConnection covid2 = covid1.openConnection();
+		   BufferedReader bf = new BufferedReader(new InputStreamReader(covid2.getInputStream()));
 			for(int i=0; i<8; i++)
 				bf.readLine();
 			
@@ -70,6 +82,13 @@ public class CasCovidService {
 				
 				casCovidRepository.save(casCovid);
 			}
+			
+			bf.close();
+	        	
+	       //
+			//Files.deleteIfExists(Paths.get("src/main/resources/file.csv"));
+	        
+	       
 		} catch(IOException e) {
 			e.printStackTrace();
 		}

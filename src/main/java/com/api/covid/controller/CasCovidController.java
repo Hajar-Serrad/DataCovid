@@ -1,5 +1,8 @@
 package com.api.covid.controller;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,10 +28,11 @@ public class CasCovidController {
 	@Autowired
 	private CasCovidService casCovidService;
 	
-	@Scheduled(fixedDelayString = "PT30M")
+	@Scheduled(fixedDelayString = "PT05M")
 	@EventListener(ApplicationReadyEvent.class)
 	@RequestMapping(path="/covid")
-	  public void findAllCas() {
+	  public void findAllCas() throws IOException {
+		Files.deleteIfExists(Paths.get("src/main/resources/file.csv"));
 		casCovidService.deleteAll();
 	    casCovidService.saveData();
 	  }
