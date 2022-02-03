@@ -101,8 +101,8 @@ public class CasCovid {
 	@Override
 	public String toString() {
 		String nL = System.getProperty("line.separator");
-		return "Evolution du Coronavirus (Covid19) - " + pays + " - "+ date +": "+ nL +"\t\t" + infections + " cas d'infections "+ nL +"\t\t" + deces
-				+ " cas de décès "+ nL +"\t" + guerisons + " cas guéris";
+		return "Evolution du Coronavirus (Covid19) - " + pays + " - "+ date +": "+ nL + nL +"\t\t" + infections + " cas d'infections "+ nL + nL +"\t\t" + deces
+				+ " cas de décès "+ nL + nL +"\t\t" + guerisons + " cas guéris";
 	}
 	
 	

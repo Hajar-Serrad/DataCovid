@@ -28,11 +28,11 @@ public class CasCovidController {
 	@Autowired
 	private CasCovidService casCovidService;
 	
-	@Scheduled(fixedDelayString = "PT05M")
-	@EventListener(ApplicationReadyEvent.class)
-	@RequestMapping(path="/covid")
+	  //@Scheduled(cron = "@hourly")
+	@Scheduled(fixedDelayString = "PT1440M")
+	 //@EventListener(ApplicationReadyEvent.class)
 	  public void findAllCas() throws IOException {
-		Files.deleteIfExists(Paths.get("src/main/resources/file.csv"));
+		//Files.deleteIfExists(Paths.get("src/main/resources/file.csv"));
 		casCovidService.deleteAll();
 	    casCovidService.saveData();
 	  }
@@ -48,7 +48,7 @@ public class CasCovidController {
 	  }
 	
 	@GetMapping("/covid/dataByCountryByDate")
-	  public String findCasByCountryDate(@RequestParam String country, @RequestParam String date) {
+	  public String findCasByCountryByDate(@RequestParam String country, @RequestParam String date) {
 		return casCovidService.getByCountryDate(country, date).toString();
 	  }
 	
