@@ -11,12 +11,10 @@ import com.api.covid.entity.*;
 public interface CasCovidRepository extends JpaRepository<CasCovid,Integer>{
 
 	List<CasCovid> findByPays(String country);
-	
+//selection des enregistrements pas pays et par date	
 	@Query("select c from CasCovid c where c.pays = :country and c.date = :date")
 	List<CasCovid> findByCountryDate(String country, String date);
 	
-	//population_needing_house,
-	  //LAG(population_needing_house) AS previous_year,
 	  
 	  @Query("select c from CasCovid c where c.pays = :country and c.date = :date")
 	  Double findByCountryDateI(String country, String date);

@@ -1,7 +1,5 @@
 package com.api.covid.entity;
 
-import java.sql.Date;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -26,12 +24,10 @@ public class CasCovid {
 	private double  tauxGuerisons;
 	private double  tauxInfections;
 	
-	
-	
 	public CasCovid() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
+	
 	public CasCovid(String date, String pays, int infections, int deces, int guerisons,
 			double tauxDeces, double tauxguerisons, double tauxinfections) {
 		super();
@@ -44,6 +40,7 @@ public class CasCovid {
 		this.tauxGuerisons = tauxguerisons;
 		this.tauxInfections = tauxinfections;
 	}
+	
 	public int getId() {
 		return id;
 	}
@@ -98,6 +95,7 @@ public class CasCovid {
 	public void setTauxInfections(double tauxinfections) {
 		this.tauxInfections = tauxinfections;
 	}
+	
 	@Override
 	public String toString() {
 		String nL = System.getProperty("line.separator");
