@@ -19,30 +19,37 @@ import java.util.List;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Service;
 
 import com.api.covid.entity.CasCovid;
 import com.api.covid.repository.CasCovidRepository;
 
 @Service
+@ConfigurationProperties(prefix="app")
 public class CasCovidService {
 	
 	@Autowired
 	private CasCovidRepository casCovidRepository;
+	@Value("${app.url}")
+	private String url;
+	@Value("${app.ignored_lines}")
+	private int ignored_lines;
 	//Importation des donnes a jour depuis l'URL
 	public void saveData() throws IOException {
-
+		
 		casCovidRepository.deleteAll();
 		String line="";
 		String[] data = null;
 		try {		
-	   URL covid1 = new URL("https://coronavirus.politologue.com/data/coronavirus/coronacsv.aspx?format=csv&t=pays");
+	   URL covid1 = new URL(url);
 	   URLConnection covid2 = covid1.openConnection();
 	   BufferedReader bf = new BufferedReader(new InputStreamReader(
 	                               covid2.getInputStream()));
 	  
 			 
-			for(int i=0; i<8; i++)
+			for(int i=0; i<ignored_lines; i++)
 				bf.readLine();
 			
 			while((line=bf.readLine())!=null)

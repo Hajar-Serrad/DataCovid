@@ -10,8 +10,11 @@ import org.springframework.scheduling.annotation.Scheduled;
 
 import com.api.covid.service.CasCovidService;
 
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
+
 @SpringBootApplication
 @EnableScheduling
+@EnableSwagger2
 public class DataCovidApplication {
 	@Autowired
 	private CasCovidService casCovidService;
