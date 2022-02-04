@@ -4,7 +4,9 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.URL;
+import java.net.URLConnection;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -33,17 +35,13 @@ public class CasCovidService {
 		casCovidRepository.deleteAll();
 		String line="";
 		String[] data = null;
-		try {
-			
-			URL fetchWebsite = new URL("https://coronavirus.politologue.com/data/coronavirus/coronacsv.aspx?format=csv&t=pays");
-      
-	        	Path path = Paths.get("src/main/resources/file.csv"); 
-	        	 try (InputStream inputStream = fetchWebsite.openStream()) {
-	 	            Files.copy(inputStream, path, StandardCopyOption.REPLACE_EXISTING);
-	 	        }
-	 	        
-			BufferedReader bf=new BufferedReader(new FileReader("src/main/resources/file.csv"));
-
+		try {		
+	   URL covid1 = new URL("https://coronavirus.politologue.com/data/coronavirus/coronacsv.aspx?format=csv&t=pays");
+	   URLConnection covid2 = covid1.openConnection();
+	   BufferedReader bf = new BufferedReader(new InputStreamReader(
+	                               covid2.getInputStream()));
+	  
+			 
 			for(int i=0; i<8; i++)
 				bf.readLine();
 			

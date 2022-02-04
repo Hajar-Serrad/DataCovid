@@ -21,11 +21,11 @@ public class CasCovidController {
 	private CasCovidService casCovidService;
 	
 //Re-importation des données chaque jour
-	@Scheduled(fixedDelayString = "PT1440M")
-	  public void findAllCas() throws IOException {
-		casCovidService.deleteAll();
-	    casCovidService.saveData();
-	  }
+	//@Scheduled(fixedDelayString = "PT1440M")
+	 // public void findAllCas() throws IOException {
+		//casCovidService.deleteAll();
+	    //casCovidService.saveData();
+	  //}
 //Retourne les données relatives à un pays donné en entrée jour par jour
 	@GetMapping("/covid/dataByCountry")
 	  public List<CasCovid> findCasByCountry(@RequestParam String country) {
@@ -34,14 +34,16 @@ public class CasCovidController {
 
 //Retourne les données relatives à un pays donné à une date donnée	
 	@GetMapping("/covid/todayDataByCountry")
-	  public String findCasByCountryNow(@RequestParam String country) {
-		return casCovidService.getByCountryNow(country).toString();
+	  public CasCovid findCasByCountryNow(@RequestParam String country) {
+		//return casCovidService.getByCountryNow(country).toString();
+		return casCovidService.getByCountryNow(country);
 	  }
 
 //Retourne les données relatives à un pays donné à la date du jour
 	@GetMapping("/covid/dataByCountryByDate")
-	  public String findCasByCountryByDate(@RequestParam String country, @RequestParam String date) {
-		return casCovidService.getByCountryDate(country, date).toString();
+	  public CasCovid findCasByCountryByDate(@RequestParam String country, @RequestParam String date) {
+		//return casCovidService.getByCountryDate(country, date).toString();
+		return casCovidService.getByCountryDate(country, date);
 	  }
 	
 }
